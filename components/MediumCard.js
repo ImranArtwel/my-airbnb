@@ -11,7 +11,7 @@ function MediumCard({img, title}) {
                 ob
                /> 
             </div>
-            <h3 className="text-2xl mt-3">{title}</h3>
+            <h3 className="mt-3 text-lg">{title}</h3>
 
         </div>
     )
