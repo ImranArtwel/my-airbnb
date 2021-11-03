@@ -6,8 +6,8 @@ import Header from "../components/Header";
 function search() {
   const router = useRouter();
   const { location, startDate, endDate, guests} = router.query;
-  const formattedStartDate = format(new Date(startDate), "MMM d, yyyy");
-  const formattedEndDate = format(new Date(endDate), "MMM d, yyyy");
+  const formattedStartDate = format(new Date(startDate || new Date()), "MMM d, yyyy");
+  const formattedEndDate = format(new Date(endDate || new Date()), "MMM d, yyyy");
   const range = `${formattedStartDate} - ${formattedEndDate}`;
     return (
         <div>
