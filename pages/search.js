@@ -4,7 +4,7 @@ import Header from "../components/Header";
 import InfoCard from "../components/InfoCard";
 
 
-function search({searchResults}) {
+function search({searchResults, numOfResults}) {
   const router = useRouter();
   const { location, startDate, endDate, guests} = router.query;
   const formattedStartDate = format(new Date(startDate || new Date()), "MMM d, yyyy");
@@ -15,7 +15,7 @@ function search({searchResults}) {
             <Header placeholder={`${location} | ${range} | ${guests} guests`} />
             <main className="flex">
                 <section className="flex-grow pt-14 px-6">
-                    <p className="text-xs">300+ Stays - {range} for {guests} guests</p>
+                    <p className="text-xs">{numOfResults}+ Stays - {range} for {guests} guests</p>
                     <h2 className="text-3xl font-semibold mt-2 mb-6">Stays in {location}</h2>
                     <div className="hidden lg:inline-flex flex mb-5 space-x-3 text-gray-800 whitespace-nowrap">
                         <p className="button">Cancellation Policy</p>
@@ -54,6 +54,7 @@ export async function getServerSideProps() {
     return {
         props: {
             searchResults,
+            numOfResults: searchResults.length
         }
     }
 }
