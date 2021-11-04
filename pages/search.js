@@ -1,9 +1,10 @@
 import { format } from "date-fns";
 import { useRouter } from "next/dist/client/router"
 import Header from "../components/Header";
+import InfoCard from "../components/InfoCard";
 
 
-function search() {
+function search({searchResults}) {
   const router = useRouter();
   const { location, startDate, endDate, guests} = router.query;
   const formattedStartDate = format(new Date(startDate || new Date()), "MMM d, yyyy");
@@ -11,7 +12,7 @@ function search() {
   const range = `${formattedStartDate} - ${formattedEndDate}`;
     return (
         <div>
-            <Header />
+            <Header placeholder={`${location} | ${range} | ${guests} guests`} />
             <main className="flex">
                 <section className="flex-grow pt-14 px-6">
                     <p className="text-xs">300+ Stays - {range} for {guests} guests</p>
@@ -24,6 +25,21 @@ function search() {
                         <p className="button">More filters</p>
                         
                     </div>
+                    <div className="flex flex-col">
+                        {
+                            searchResults?.map(item => (
+                                <InfoCard 
+                                  key={item.img}
+                                  img={item.img}
+                                  location={item.location}
+                                  title={item.title}
+                                  description={item.description}
+                                  star={item.star}
+                                  price={item.price} 
+                                  total={item.total} />
+                            ))
+                        }
+                    </div>
                 </section>
 
             </main>
@@ -32,3 +48,12 @@ function search() {
 }
 
 export default search
+
+export async function getServerSideProps() {
+    const searchResults = await fetch("https://links.papareact.com/isz").then(res => res.json());
+    return {
+        props: {
+            searchResults,
+        }
+    }
+}
